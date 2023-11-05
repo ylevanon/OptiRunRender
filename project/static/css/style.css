@@ -1,0 +1,68 @@
+.bg-img {
+    background-image: url('../runner_small.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+
+.custom-padding {
+    padding-top: 160px;
+    /* Adjust this value to control the amount of padding */
+}
+
+
+.error-text {
+    color: red;
+}
+
+
+
+.btn-teal {
+    background-color: teal;
+    color: white;
+    font-size: large;
+}
+
+
+.position-relative {
+    position: relative;
+}
+
+.custom-larger-pill {
+    font-size: 1.2rem;
+    /* Adjust the font size as needed */
+    padding: 0.75rem 1.5rem;
+    /* Adjust the padding as needed */
+}
+
+.text-teal {
+    color: #008080;
+    /* Teal color */
+}
+
+.text-white {
+    color: #ffffff;
+    /* White color */
+}
+
+.route-container {
+    background-color: #008080;
+    /* Teal background color */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.route-details {
+    margin-top: 20px;
+}
+
+.distance {
+    font-size: 24px;
+}
+
+.map-container {
+    height: 400px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

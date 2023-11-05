@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <!-- Include your custom scripts with a relative path -->
+        <script src="../static/make-folium-map.js"></script>
+        <!-- Include external libraries -->
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuW1F8SftPkmMN-qOEweDpD6Sbf1bL31k&libraries=places&callback=initMap"></script>
+
+
+        <!-- Include Leaflet library -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    </head>
+
+    <body>
+        <div class="col-md-6">
+            <div id="map" style="height: 400px;"></div>
+        </div>
+
+        <!-- Initialize the map by calling the callback function -->
+        <script>
+            initMap();
+        </script>
+    </body>
+
+</html>
