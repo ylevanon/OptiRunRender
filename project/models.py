@@ -18,7 +18,6 @@ from geopy.geocoders import Nominatim
 
 
 warnings.filterwarnings("ignore", category=ShapelyDeprecationWarning)
-ox.config(log_console=True)
 
 
 # Consider building a class called ModelConsumable that you can pass to build model.
