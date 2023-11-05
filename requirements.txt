@@ -42,3 +42,4 @@ celery
 redis
 flask
 beautifulsoup4
+gunicorn
