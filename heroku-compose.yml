@@ -1,0 +1,13 @@
+setup:
+  addons:
+  -plan: heroku-redis
+  as: REDIS
+build:
+  docker:
+  web: Dockerfile
+run:
+  web:
+    command: 
+  worker:
+    command:
+    image: web
