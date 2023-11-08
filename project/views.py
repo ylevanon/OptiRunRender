@@ -35,7 +35,7 @@ def loading(task_id):
         print(result)
         print(len(result))
         address = result[0]
-        distance = result[1]
+        distance = float(result[1])
         tour = result[2]
         route_length = result[3]
         graph = Graph(distance=distance, address=address)
