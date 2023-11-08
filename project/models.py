@@ -465,8 +465,8 @@ class MapBuilder:
             # Save the modified HTML back to a file
             with open('/app/project/templates/customized_run.html', 'w', encoding='utf-8') as modified_file:
                 modified_file.write(str(soup))
-                html_file.close()
-                modified_file.close()
+            html_file.close()
+            modified_file.close()
 
         else:
             print("Element with id 'custom-run' not found.")
