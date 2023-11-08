@@ -435,42 +435,41 @@ class MapBuilder:
         folium.Marker(run.coords, popup=popup).add_to(test_map)
         test_map = self.plot_run_on_map(graph.graph, final_tour, test_map)
         test_map.save("/app/project/templates/generated_route.html")
-        return test_map
-        # # Read the HTML file
-        # soupy_map = BeautifulSoup(test_map.get_root().render(), "html.parser")
+        # Read the HTML file
+        soupy_map = BeautifulSoup(test_map.get_root().render(), "html.parser")
 
-        # with open('/app/project/templates/customized_run.html', 'r', encoding='utf-8') as html_file:
-        #     html_content = html_file.read()
+        with open('/app/project/templates/customized_run.html', 'r', encoding='utf-8') as html_file:
+            html_content = html_file.read()
 
-        # # Parse the HTML content
-        # soup = BeautifulSoup(html_content, 'html.parser')
+        # Parse the HTML content
+        soup = BeautifulSoup(html_content, 'html.parser')
 
-        # # Find the element with the specified id
-        # custom_run_div = soup.find('div', {'id': 'custom-run'})
+        # Find the element with the specified id
+        custom_run_div = soup.find('div', {'id': 'custom-run'})
 
-        # # Check if the element was found
-        # if custom_run_div:
-        #     # Extract the element's contents or attributes
-        #      # Print the element's HTML
-        #      # Convert the Folium map to an HTML string
-        #     # folium_map_html = test_map.get_root().render()
-        #     # for i in range(10):
-        #     #     print("*")
-        #     # Set the innerHTML of the custom_run_div to the Folium map HTML
-        #     custom_run_div.clear()
-        #     custom_run_div.append(soupy_map)
-        #     # for i in range(10):
-        #     #     print("*")
-        #     print(custom_run_div.contents)
-        #     #print(custom_run_div.prettify())  # Print the element's HTML
-        #     # Save the modified HTML back to a file
-        #     with open('/app/project/templates/customized_run.html', 'w', encoding='utf-8') as modified_file:
-        #         modified_file.write(str(soup))
-        #         html_file.close()
-        #         modified_file.close()
+        # Check if the element was found
+        if custom_run_div:
+            # Extract the element's contents or attributes
+             # Print the element's HTML
+             # Convert the Folium map to an HTML string
+            # folium_map_html = test_map.get_root().render()
+            # for i in range(10):
+            #     print("*")
+            # Set the innerHTML of the custom_run_div to the Folium map HTML
+            custom_run_div.clear()
+            custom_run_div.append(soupy_map)
+            # for i in range(10):
+            #     print("*")
+            print(custom_run_div.contents)
+            #print(custom_run_div.prettify())  # Print the element's HTML
+            # Save the modified HTML back to a file
+            with open('/app/project/templates/customized_run.html', 'w', encoding='utf-8') as modified_file:
+                modified_file.write(str(soup))
+                html_file.close()
+                modified_file.close()
 
-        # else:
-        #     print("Element with id 'custom-run' not found.")
+        else:
+            print("Element with id 'custom-run' not found.")
     
     def plot_run_on_map(self, G, lst, fol_map):
         """

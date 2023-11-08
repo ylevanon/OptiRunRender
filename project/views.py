@@ -1,4 +1,3 @@
-from bs4 import BeautifulSoup
 from flask import Blueprint, render_template, redirect, request, url_for
 from celery.result import AsyncResult
 from .tasks import process_runner_input
@@ -32,42 +31,7 @@ def loading(task_id):
     elif state == "SUCCESS":
         print(task.status)
         result = task.result
-        test_map, distance= result  # Extract distance and test_map
-        # Read the HTML file
-        soupy_map = BeautifulSoup(test_map.get_root().render(), "html.parser")
-
-        with open('/app/project/templates/customized_run.html', 'r', encoding='utf-8') as html_file:
-            html_content = html_file.read()
-
-        # Parse the HTML content
-        soup = BeautifulSoup(html_content, 'html.parser')
-
-        # Find the element with the specified id
-        custom_run_div = soup.find('div', {'id': 'custom-run'})
-
-        # Check if the element was found
-        if custom_run_div:
-            # Extract the element's contents or attributes
-             # Print the element's HTML
-             # Convert the Folium map to an HTML string
-            # folium_map_html = test_map.get_root().render()
-            # for i in range(10):
-            #     print("*")
-            # Set the innerHTML of the custom_run_div to the Folium map HTML
-            custom_run_div.clear()
-            custom_run_div.append(soupy_map)
-            # for i in range(10):
-            #     print("*")
-            print(custom_run_div.contents)
-            #print(custom_run_div.prettify())  # Print the element's HTML
-            # Save the modified HTML back to a file
-            with open('/app/project/templates/customized_run.html', 'w', encoding='utf-8') as modified_file:
-                modified_file.write(str(soup))
-                html_file.close()
-                modified_file.close()
-
-        else:
-            print("Element with id 'custom-run' not found.")
+        generated_run_html, distance= result  # Extract distance and generated_run_html
         return render_template(
             "customized_run.html", distance=distance)
     else:

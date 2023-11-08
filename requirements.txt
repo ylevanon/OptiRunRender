@@ -43,3 +43,4 @@ redis
 flask
 beautifulsoup4
 gunicorn
+rq
