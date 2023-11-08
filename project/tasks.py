@@ -25,4 +25,5 @@ def process_runner_input(self, form_data):
 
     map_builder = MapBuilder()
     map_builder.generate_run_map(run, graph, final_tour)
-    return "customized_run.html", round(route_length / 1609.34, 2)
+    # return "customized_run.html", round(route_length / 1609.34, 2)
+    return [run.address, run.coords, final_tour, round(route_length / 1609.34, 2)]

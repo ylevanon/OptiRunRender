@@ -31,9 +31,13 @@ def loading(task_id):
     elif state == "SUCCESS":
         print(task.status)
         result = task.result
-        generated_run_html, distance= result  # Extract distance and generated_run_html
+        print(result)
+        print(len(result))
+        # generated_run_html, distance= result  # Extract distance and generated_run_html
+        # return render_template(
+        #     "customized_run.html", distance=distance)
         return render_template(
-            "customized_run.html", distance=distance)
+            "customized_run.html", distance=5)
     else:
         print(state)
         return render_template("error.html")
