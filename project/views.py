@@ -35,10 +35,11 @@ def loading(task_id):
         print(result)
         print(len(result))
         address = result[0]
-        tour = result[1]
-        route_length = result[2]
-        graph = Graph(distance=route_length, address=address)
-        run = Run(distance=route_length, address=address, graph=graph)
+        distance = result[1]
+        tour = result[2]
+        route_length = result[3]
+        graph = Graph(distance=distance, address=address)
+        run = Run(distance=distance, address=address, graph=graph)
         map_builder = MapBuilder()
         map_builder.generate_run_map(run, graph, tour)
         # generated_run_html, distance= result  # Extract distance and generated_run_html
