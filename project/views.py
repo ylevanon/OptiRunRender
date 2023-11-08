@@ -29,7 +29,7 @@ def input():
     if request.method == "POST":
         form_data = request.form
         job = q.enqueue(process_runner_input, form_data)
-        return redirect(url_for("loading", task_id=job.id))
+        return redirect(url_for("main.loading", task_id=job.id))
     return render_template("input.html")
 
 
