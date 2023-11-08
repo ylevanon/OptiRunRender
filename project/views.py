@@ -40,14 +40,13 @@ def loading(task_id):
     if status in ["queued", "started", "deferred", "failed"]:
         return render_template("loading.html", result=status, refresh=True)
     elif status == "finished":
-        print(job.results())
-        result = job.results()
-        print(result)
-        print(len(result))
-        address = result[0]
-        distance = float(result[1])
-        tour = result[2]
-        route_length = result[3]
+        results = job.result
+        print(results)
+        print(len(results))
+        address = results[0]
+        distance = float(results[1])
+        tour = results[2]
+        route_length = results[3]
         graph = Graph(distance=distance, address=address)
         run = Run(distance=distance, address=address, graph=graph)
         map_builder = MapBuilder()
