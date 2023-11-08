@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, redirect, request, url_for
 from celery.result import AsyncResult
 from .tasks import process_runner_input
-from .models import MapBuilder
 
 main = Blueprint('main', __name__)
 
@@ -32,10 +31,7 @@ def loading(task_id):
     elif state == "SUCCESS":
         print(task.status)
         result = task.result
-        route_info = result  # Extract distance and generated_run_html
-        print(len(route_info))
-        print(route_info)
-        distance = 2
+        generated_run_html, distance= result  # Extract distance and generated_run_html
         return render_template(
             "customized_run.html", distance=distance)
     else:
