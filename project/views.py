@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, redirect, request, url_for
 from rq import Queue
 from .tasks import process_runner_input
 from .models import Run, Graph, MapBuilder
-from worker import conn
+from .worker import conn
 main = Blueprint('main', __name__)
 q = Queue(connection=conn)
 
