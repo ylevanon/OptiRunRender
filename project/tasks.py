@@ -28,7 +28,7 @@ from .models import Model, Run, Graph, RouteParser, MapBuilder
 #     # return "customized_run.html", round(route_length / 1609.34, 2)
 #     return [run.address, run.distance, final_tour, round(route_length / 1609.34, 2)]
 
-def process_runner_input(self, form_data):
+def process_runner_input(form_data):
     distance = float(form_data["distance"])
     graph = Graph(distance=distance, address=form_data["address"])
     run = Run(distance=form_data["distance"], address=form_data["address"], graph=graph)
