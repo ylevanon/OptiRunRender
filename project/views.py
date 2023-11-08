@@ -54,12 +54,14 @@ def loading(task_id):
         # generated_run_html, distance= result  # Extract distance and generated_run_html
         # return render_template(
         #     "customized_run.html", distance=distance)
-
+        q.remove(job)
         return render_template(
             "customized_run.html", distance=route_length)
     else:
         print(status)
         return render_template("error.html")
+
+
 
 # @main.route("/loading/<task_id>")
 # def loading(task_id):
