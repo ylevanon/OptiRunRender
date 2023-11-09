@@ -54,7 +54,7 @@ def customized_run():
     bucket_name = os.environ.get('S3_BUCKET_NAME')
     file_path = '/app/project/templates/customized_run.html'  # Replace with your desired 
     os.remove(file_path)
-    s3.meta.client.download_file(bucket_name, 'customized_run.html', file_path)
+    s3.download_file(bucket_name, 'customized_run.html', file_path)
     return render_template("customized_run.html")
 
 
