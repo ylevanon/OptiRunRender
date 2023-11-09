@@ -43,19 +43,6 @@ def loading(task_id):
     if status in ["queued", "started", "deferred", "failed"]:
         return render_template("loading.html", result=status, refresh=True)
     elif status == "finished":
-        results = job.result
-        print(results)
-        print(len(results))
-        address = results[0]
-        distance = float(results[1])
-        tour = results[2]
-        route_length = results[3]
-        q.remove(job)
-        s3 = boto3.client('s3')
-        bucket_name = os.environ.get('S3_BUCKET_NAME')
-        file_path = '/app/project/templates/customized_run.html'  # Replace with your desired file path
-        with open(file_path, 'wb') as f:
-            s3.download_fileobj(bucket_name, 'customized_run.html', f)
         return redirect(url_for("main.customized_run"))
     else:
         print(status)
@@ -63,6 +50,11 @@ def loading(task_id):
 
 @main.route("/customized_run")
 def customized_run():
+    s3 = boto3.client('s3')
+    bucket_name = os.environ.get('S3_BUCKET_NAME')
+    file_path = '/app/project/templates/customized_run.html'  # Replace with your desired file path
+    with open(file_path, 'wb') as f:
+            s3.download_fileobj(bucket_name, 'customized_run.html', f)
     return render_template("customized_run.html")
 
 
