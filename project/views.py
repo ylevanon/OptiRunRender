@@ -55,7 +55,7 @@ def customized_run():
     os.remove("/app/project/templates/customized_run.html")
     file_path = '/app/project/templates/customized_run.html'  # Replace with your desired file path
     with open(file_path, 'wb') as f:
-            s3.download_fileobj(bucket_name, 'customized_run.html', f)
+            s3.download_fileobj(bucket_name, 'customized_run.html', fileobj=f)
     return render_template("customized_run.html")
 
 
