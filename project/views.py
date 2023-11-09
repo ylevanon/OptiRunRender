@@ -56,12 +56,14 @@ def loading(task_id):
         file_path = '/app/project/templates/customized_run.html'  # Replace with your desired file path
         with open(file_path, 'wb') as f:
             s3.download_fileobj(bucket_name, 'customized_run.html', f)
-        return render_template(
-            "customized_run.html", distance=route_length)
+        return redirect(url_for("main.customized_run"))
     else:
         print(status)
         return render_template("error.html")
 
+@main.route("/customized_run")
+def customized_run():
+    return render_template("customized_run.html")
 
 
 # @main.route("/loading/<task_id>")
