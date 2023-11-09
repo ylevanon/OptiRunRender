@@ -466,7 +466,8 @@ class MapBuilder:
                 modified_file.write(str(soup))
                 s3 = boto3.client('s3')
                 bucket_name = os.environ.get('S3_BUCKET_NAME')
-                s3.put_object(Bucket=bucket_name, Key="customized_run.html", Body=modified_file, ContentType='text/html')
+                with open('/app/project/templates/customized_run.html', "rb") as f:
+                    s3.upload_fileobj(f, bucket_name, 'customized_run.html')
                 modified_file.close()
                 html_file.close()
             

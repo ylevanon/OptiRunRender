@@ -52,13 +52,10 @@ def loading(task_id):
         route_length = results[3]
         q.remove(job)
         s3 = boto3.client('s3')
-        response = s3.get_object(Bucket=os.environ.get('S3_BUCKET_NAME'), Key="customized_run.html")
-        html_content = response['Body'].read().decode('utf-8')
+        bucket_name = os.environ.get('S3_BUCKET_NAME')
         file_path = '/app/project/templates/customized_run.html'  # Replace with your desired file path
-    
-        # Save the HTML content to the file
-        with open(file_path, 'w') as file:
-            file.write(html_content)
+        with open(file_path, 'wb') as f:
+            s3.download_fileobj(bucket_name, 'customized_run.html', f)
         return render_template(
             "customized_run.html", distance=route_length)
     else:
