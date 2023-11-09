@@ -52,10 +52,11 @@ def loading(task_id):
 def customized_run():
     s3 = boto3.client('s3')
     bucket_name = os.environ.get('S3_BUCKET_NAME')
-    os.remove("/app/project/templates/customized_run.html")
-    file_path = '/app/project/templates/customized_run.html'  # Replace with your desired file path
-    with open(file_path, 'wb') as f:
-            s3.download_fileobj(bucket_name, 'customized_run.html', fileobj=f)
+    my_bucket = s3.Bucket(bucket_name)
+    os.remove("/tmp/<file_name>.txt")
+    # file_path = '/app/project/templates/customized_run.html'  # Replace with your desired file path
+    # with open(file_path, 'wb') as f:
+    my_bucket.download_file('customized_run.html', 'project/templates/customized_run.html')
     return render_template("customized_run.html")
 
 
