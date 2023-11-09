@@ -1,12 +1,11 @@
-import uuid
 import os
-import html
+import uuid
+import boto3
 from bs4 import BeautifulSoup
 import gurobipy as gp
 from gurobipy import GRB
 import folium
 import networkx as nx
-import matplotlib.pyplot as plt
 import osmnx as ox
 import pandas as pd
 import networkx as nx
@@ -465,8 +464,12 @@ class MapBuilder:
             # Save the modified HTML back to a file
             with open('/app/project/templates/customized_run.html', 'w', encoding='utf-8') as modified_file:
                 modified_file.write(str(soup))
-            html_file.close()
+            s3 = boto3.client('s3')
+            bucket_name = os.environ.get('S3_BUCKET_NAME')
+            s3.put_object(Bucket=bucket_name, Key="customized_run.html", Body=modified_file, ContentType='text/html')
             modified_file.close()
+            html_file.close()
+            
 
         else:
             print("Element with id 'custom-run' not found.")

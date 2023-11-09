@@ -1,5 +1,8 @@
+import os
 from flask import Blueprint, render_template, redirect, request, url_for
 # from celery.result import AsyncResult
+import boto3
+from bs4 import BeautifulSoup
 from rq import Queue
 from .tasks import process_runner_input
 from .models import Run, Graph, MapBuilder
@@ -47,14 +50,22 @@ def loading(task_id):
         distance = float(results[1])
         tour = results[2]
         route_length = results[3]
-        graph = Graph(distance=distance, address=address)
-        run = Run(distance=distance, address=address, graph=graph)
-        map_builder = MapBuilder()
-        map_builder.generate_run_map(run, graph, tour)
+        # graph = Graph(distance=distance, address=address)
+        # run = Run(distance=distance, address=address, graph=graph)
+        # map_builder = MapBuilder()
+        # map_builder.generate_run_map(run, graph, tour)
         # generated_run_html, distance= result  # Extract distance and generated_run_html
         # return render_template(
         #     "customized_run.html", distance=distance)
         q.remove(job)
+        s3 = boto3.client('s3')
+        response = s3.get_object(Bucket=os.environ.get('S3_BUCKET_NAME'), Key="customized_run.html")
+        html_content = response['Body'].read().decode('utf-8')
+        file_path = '/app/project/templates/customized_run.html'  # Replace with your desired file path
+    
+        # Save the HTML content to the file
+        with open(file_path, 'w') as file:
+            file.write(html_content)
         return render_template(
             "customized_run.html", distance=route_length)
     else:

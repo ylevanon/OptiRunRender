@@ -44,3 +44,4 @@ flask
 beautifulsoup4
 gunicorn
 rq
+boto3
