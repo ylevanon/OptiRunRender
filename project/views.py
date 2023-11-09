@@ -54,6 +54,21 @@ def customized_run():
     bucket_name = os.environ.get('S3_BUCKET_NAME')
     file_path = '/app/project/templates/customized_run.html'  # Replace with your desired 
     os.remove(file_path)
+        # Directory path where you want to search for files
+    directory_path = '/app/project/templates'
+
+    # File name to search for
+    file_name = 'customized_run.html'
+
+    # List all files in the directory
+    all_files = os.listdir(directory_path)
+
+    # Filter for files with the specified name
+    matching_files = [file for file in all_files if file == file_name]
+
+    # Print the names of matching files
+    for matching_file in matching_files:
+        print(matching_file)
     s3.download_file(bucket_name, 'customized_run.html', file_path)
     return render_template("customized_run.html")
 
