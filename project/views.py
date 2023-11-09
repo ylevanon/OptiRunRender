@@ -50,13 +50,6 @@ def loading(task_id):
         distance = float(results[1])
         tour = results[2]
         route_length = results[3]
-        # graph = Graph(distance=distance, address=address)
-        # run = Run(distance=distance, address=address, graph=graph)
-        # map_builder = MapBuilder()
-        # map_builder.generate_run_map(run, graph, tour)
-        # generated_run_html, distance= result  # Extract distance and generated_run_html
-        # return render_template(
-        #     "customized_run.html", distance=distance)
         q.remove(job)
         s3 = boto3.client('s3')
         response = s3.get_object(Bucket=os.environ.get('S3_BUCKET_NAME'), Key="customized_run.html")
