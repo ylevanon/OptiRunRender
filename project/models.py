@@ -538,7 +538,7 @@ class MapBuilder:
 
     import re
 
-    def extract_polyline_coordinates(html_content):
+    def extract_polyline_coordinates(self, html_content):
         # Regular expression to find all polyline instantiations
         polyline_regex = (
             r"var poly_line_[\w\d]+ = L.polyline\(\s*\[\s*\[([\s\S]*?)\]\s*\]"
