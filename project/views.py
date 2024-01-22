@@ -1,3 +1,4 @@
+import json
 import os
 from flask import Blueprint, jsonify, render_template, redirect, request, url_for
 
@@ -82,8 +83,7 @@ def loading(task_id):
 
 @main.route("/customized_run/<waypoints>")
 def customized_run(waypoints):
-    waypoints = [[lat, lon] for lat, lon in waypoints]
-    waypoints_json = dumps(waypoints)  # Convert Python list to JSON string
+    waypoints_json = json.dumps(waypoints)  # Convert Python list to JSON string
     return render_template("customized_run.html", waypoints=waypoints_json)
 
 
