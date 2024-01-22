@@ -7,7 +7,7 @@ import boto3
 from bs4 import BeautifulSoup
 from rq import Queue
 from .tasks import process_runner_input
-from .models import Run, Graph, MapBuilder
+from .classes import Run, Graph, MapBuilder
 from project.worker import conn
 
 main = Blueprint("main", __name__)

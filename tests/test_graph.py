@@ -2,7 +2,7 @@ import unittest
 import osmnx as ox
 import pandas as pd
 import networkx as nx
-from project.models import Graph  # Import your Graph class here
+from project.classes import Graph  # Import your Graph class here
 
 
 class TestGraph(unittest.TestCase):
