@@ -61,7 +61,7 @@ Generated Route
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
 <!-- Your JavaScript code for map initialization and other functions -->
 <script>
-    var waypoints = {{ waypoints| safe }};
+    var waypoints = {{ waypoints| tojson | safe }};
     let start = waypoints[0]
     var run_map = L.map("run_map", {
         center: start,
