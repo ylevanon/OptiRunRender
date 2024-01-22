@@ -1,6 +1,5 @@
 import os
 import uuid
-import boto3
 import re
 from bs4 import BeautifulSoup
 import gurobipy as gp
