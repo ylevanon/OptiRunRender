@@ -1,0 +1,258 @@
+<!-- <!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Leaflet Routing Machine Example</title>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+        <link rel="stylesheet"
+            href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+        <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+        <style>
+            #map {
+                height: 400px;
+            }
+
+            .info-panel {
+                margin-top: 10px;
+            }
+
+            /* Add other styles for your divs here */
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>Route Information</h1>
+            <div id="map" class="mb-3"></div>
+            <div class="info-panel">
+                <h3>Route Details</h3>
+                <p id="routeInfo">Loading route information...</p>
+            </div> -->
+<!-- Other divs for additional data -->
+<!-- <div class="info-panel">
+                <h3>Other Data</h3>
+                <p>Some other relevant information here.</p>
+            </div>
+        </div>
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            var initialLat = 47.6954566;  // Replace with initial latitude
+            var initialLng = -122.1266523;  // Replace with initial longitude
+            var zoomLevel = 13;  // Adjust zoom level as needed
+
+            var map = L.map('map').setView([initialLat, initialLng], zoomLevel);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // var waypoints = {{ waypoints | tojson }};
+            var waypoints = [
+                { "lat": 47.6954566, "lng": -122.1266523 },
+                { "lat": 47.6951402, "lng": -122.1266353 },
+            ]
+            console.log(waypoints[0].lat)
+            var routingControl = L.Routing.control({
+                waypoints: waypoints.map(wp => L.latLng(wp.lat, wp.lng)),
+                routeWhileDragging: true
+            }).addTo(map);
+
+            // Example of updating route information
+            routingControl.on('routesfound', function (e) {
+                var routes = e.routes;
+                var summary = routes[0].summary;
+                document.getElementById('routeInfo').innerHTML = 'Distance: ' + summary.totalDistance + ' meters, Time: ' + summary.totalTime + ' seconds';
+            });
+        </script>
+    </body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Leaflet Routing Machine Example</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css" />
+        <link rel="stylesheet"
+            href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+        <style>
+            #map {
+                height: 400px;
+            }
+
+            .info-panel {
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>Route Information</h1>
+            <div id="map" class="mb-3"></div>
+            <div class="info-panel">
+                <h3>Route Details</h3>
+                <p id="routeInfo">Loading route information...</p>
+            </div>
+            <!-- Other divs for additional data -->
+            <div class="info-panel">
+                <h3>Other Data</h3>
+                <p>Some other relevant information here.</p>
+            </div>
+        </div>
+
+        <!-- Leaflet JS -->
+        <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+        <!-- Leaflet Routing Machine JS -->
+        <script src="https://unpkg.com/leaflet-routing-machine@latest"></script>
+        <!-- Optional: jQuery, Popper.js, and Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            var initialLat = 47.6954566;  // Replace with initial latitude
+            var initialLng = -122.1266523;  // Replace with initial longitude
+            var zoomLevel = 13;  // Adjust zoom level as needed
+
+            var map = L.map('map').setView([initialLat, initialLng], zoomLevel);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            var waypoints = [
+                L.latLng(47.6954576, -122.1265856),
+                L.latLng(47.6954566, -122.1266523),
+                L.latLng(47.6953995, -122.1266524),
+                L.latLng(47.6953519, -122.1266496),
+                L.latLng(47.6951402, -122.1266353),
+                L.latLng(47.695058, -122.1266324),
+                L.latLng(47.6950601, -122.1265479),
+                L.latLng(47.6949868, -122.1265373),
+                L.latLng(47.6949832, -122.1266216),
+                L.latLng(47.6947987, -122.1265949),
+                L.latLng(47.6946068, -122.1265371),
+                L.latLng(47.6944283, -122.1264471),
+                L.latLng(47.6940897, -122.1262667),
+                L.latLng(47.6937516, -122.1260768),
+                L.latLng(47.693784, -122.125956),
+                L.latLng(47.6937258, -122.1259164),
+                L.latLng(47.6937208, -122.1258997),
+                L.latLng(47.6936964, -122.1259111),
+                L.latLng(47.6936734, -122.1259151),
+                L.latLng(47.6936526, -122.1259164),
+                L.latLng(47.6936319, -122.1259057),
+                L.latLng(47.6935673, -122.1258501),
+                L.latLng(47.693538, -122.1258286),
+                L.latLng(47.693496, -122.1257783),
+                L.latLng(47.6934717, -122.1257515),
+                L.latLng(47.693417, -122.1256683),
+                L.latLng(47.6933633, -122.1255832),
+                L.latLng(47.6933323, -122.1255278),
+                L.latLng(47.6933378, -122.1255197),
+                L.latLng(47.6933662, -122.1254632),
+                L.latLng(47.6933837, -122.1253803),
+                L.latLng(47.6934302, -122.1251631),
+                L.latLng(47.6934946, -122.1248902),
+                L.latLng(47.693652, -122.1244047),
+                L.latLng(47.6937594, -122.1239616),
+                L.latLng(47.6938238, -122.1236568),
+                L.latLng(47.6939192, -122.1231571),
+                L.latLng(47.6939956, -122.1229054),
+                L.latLng(47.6940838, -122.1227247),
+                L.latLng(47.6942341, -122.1225581),
+                L.latLng(47.6944178, -122.122427),
+                L.latLng(47.6945753, -122.1223596),
+                L.latLng(47.6948114, -122.1223632),
+                L.latLng(47.695774, -122.122324),
+                L.latLng(47.695774, -122.122324),
+                L.latLng(47.6965177, -122.12228),
+                L.latLng(47.6972637, -122.1222568),
+                L.latLng(47.6982712, -122.1222467),
+                L.latLng(47.6982806, -122.1222466),
+                L.latLng(47.6983221, -122.1222538),
+                L.latLng(47.6983725, -122.1222625),
+                L.latLng(47.6983809, -122.1222626),
+                L.latLng(47.6983082, -122.1226522),
+                L.latLng(47.6983082, -122.1227004),
+                L.latLng(47.6983191, -122.1227527),
+                L.latLng(47.6982853, -122.1228669),
+                L.latLng(47.698282, -122.1228648),
+                L.latLng(47.6981943, -122.1228041),
+                L.latLng(47.6981626, -122.1229036),
+                L.latLng(47.6982421, -122.1229626),
+                L.latLng(47.6982112, -122.1229995),
+                L.latLng(47.6981144, -122.1232972),
+                L.latLng(47.6980939, -122.1234454),
+                L.latLng(47.698093, -122.1238759),
+                L.latLng(47.6980957, -122.1244083),
+                L.latLng(47.6980975, -122.1245183),
+                L.latLng(47.6980862, -122.1246598),
+                L.latLng(47.6980754, -122.1247657),
+                L.latLng(47.6981266, -122.1248799),
+                L.latLng(47.6981512, -122.1250132),
+                L.latLng(47.6981422, -122.1251077),
+                L.latLng(47.6981182, -122.1251573),
+                L.latLng(47.6980555, -122.1251708),
+                L.latLng(47.6980122, -122.1251734),
+                L.latLng(47.6979643, -122.1251446),
+                L.latLng(47.6979084, -122.1250849),
+                L.latLng(47.6978781, -122.1250802),
+                L.latLng(47.6977843, -122.1251245),
+                L.latLng(47.6973767, -122.1251828),
+                L.latLng(47.6973027, -122.1251718),
+                L.latLng(47.6972242, -122.12516),
+                L.latLng(47.6970464, -122.1250879),
+                L.latLng(47.6969081, -122.1250017),
+                L.latLng(47.6968999, -122.1250366),
+                L.latLng(47.696887, -122.1251728),
+                L.latLng(47.6968886, -122.1253126),
+                L.latLng(47.6968, -122.1253617),
+                L.latLng(47.6967531, -122.1253785),
+                L.latLng(47.6966953, -122.1254133),
+                L.latLng(47.6966466, -122.1254241),
+                L.latLng(47.6964715, -122.1255152),
+                L.latLng(47.6963956, -122.1255421),
+                L.latLng(47.6963667, -122.1256596),
+                L.latLng(47.6963368, -122.1257672),
+                L.latLng(47.6962892, -122.1259625),
+                L.latLng(47.6962014, -122.1260048),
+                L.latLng(47.6960904, -122.125982),
+                L.latLng(47.6959838, -122.125971),
+                L.latLng(47.6958098, -122.1261639),
+                L.latLng(47.6957392, -122.1263036),
+                L.latLng(47.6956838, -122.1264134),
+                L.latLng(47.6954581, -122.1265551),
+                L.latLng(47.6954576, -122.1265856),
+                L.latLng(47.6955571, -122.1266522),
+                L.latLng(47.6955879, -122.1266522),
+                L.latLng(47.6957244, -122.126635)
+            ];
+
+
+            var routingControl = L.Routing.control({
+                waypoints: waypoints,
+                routeWhileDragging: false
+            }).addTo(map);
+
+            // Example of updating route information
+            routingControl.on('routesfound', function (e) {
+                var routes = e.routes;
+                var summary = routes[0].summary;
+                document.getElementById('routeInfo').innerHTML = 'Distance: ' + summary.totalDistance + ' meters, Time: ' + summary.totalTime + ' seconds';
+            });
+        </script>
+    </body>
+
+</html>

@@ -1,5 +1,6 @@
 import os
 from flask import Blueprint, render_template, redirect, request, url_for
+
 # from celery.result import AsyncResult
 import boto3
 from bs4 import BeautifulSoup
@@ -7,8 +8,10 @@ from rq import Queue
 from .tasks import process_runner_input
 from .models import Run, Graph, MapBuilder
 from project.worker import conn
-main = Blueprint('main', __name__)
+
+main = Blueprint("main", __name__)
 q = Queue(connection=conn)
+
 
 @main.route("/")
 def index():
@@ -19,6 +22,7 @@ def index():
 def about():
     return render_template("about.html")
 
+
 # @main.route("/input", methods=["GET", "POST"])
 # def input():
 #     if request.method == "POST":
@@ -26,6 +30,7 @@ def about():
 #         task = process_runner_input.delay(form_data)
 #         return redirect(url_for("main.loading", task_id=task))
 #     return render_template("input.html")
+
 
 @main.route("/input", methods=["GET", "POST"])
 def input():
@@ -48,17 +53,20 @@ def loading(task_id):
         print(status)
         return render_template("error.html")
 
+
 @main.route("/customized_run")
 def customized_run():
-    s3 = boto3.client('s3')
-    bucket_name = os.environ.get('S3_BUCKET_NAME')
-    file_path = '/app/project/templates/customized_run.html'  # Replace with your desired 
+    s3 = boto3.client("s3")
+    bucket_name = os.environ.get("S3_BUCKET_NAME")
+    file_path = (
+        "/app/project/templates/customized_run.html"  # Replace with your desired
+    )
     os.remove(file_path)
-        # Directory path where you want to search for files
-    directory_path = '/app/project/templates'
+    # Directory path where you want to search for files
+    directory_path = "/app/project/templates"
 
     # File name to search for
-    file_name = 'customized_run.html'
+    file_name = "customized_run.html"
 
     # List all files in the directory
     all_files = os.listdir(directory_path)
@@ -69,8 +77,17 @@ def customized_run():
     # Print the names of matching files
     for matching_file in matching_files:
         print(matching_file)
-    s3.download_file(bucket_name, 'customized_run.html', file_path)
+    s3.download_file(bucket_name, "customized_run.html", file_path)
     return render_template("customized_run.html")
+
+
+@main.route("/leaflet")
+def leaflet():
+    waypoints = [
+        {"lat": 47.6954566, "lng": -122.1266523},
+        {"lat": 47.6951402, "lng": -122.1266353},
+    ]
+    return render_template("leaflet.html", waypoints=waypoints)
 
 
 # @main.route("/loading/<task_id>")
@@ -101,4 +118,3 @@ def customized_run():
 #     else:
 #         print(state)
 #         return render_template("error.html")
-    

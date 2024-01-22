@@ -18,6 +18,7 @@ from geopy.geocoders import Nominatim
 
 warnings.filterwarnings("ignore", category=ShapelyDeprecationWarning)
 
+google_elevation_key = "AIzaSyBH6B7cw1HhLc62MLwhtgJevj4Lyty6ns8"
 
 # Consider building a class called ModelConsumable that you can pass to build model.
 
@@ -30,7 +31,7 @@ class Model:
             cls._instance = super(Model, cls).__new__(cls)
         return cls._instance
 
-    def build_model(self, dist, nodes, start, distance):
+    def build_model(self, dist, elevation, nodes, start, distance, max_elevation):
         # Variables: vars is the set of edges in the graph, seq is the set of nodes in the graph
         distance = distance * 1609.34
         m = gp.Model()
@@ -49,6 +50,17 @@ class Model:
 
         m.addConstr(
             gp.quicksum([vars[i, j] * dist[i, j] for i, j in vars.keys()]) >= distance
+        )
+
+        m.addConstr(
+            gp.quicksum(
+                [
+                    vars[i, j] * elevation[i, j]
+                    for i, j in vars.keys()
+                    if elevation[i, j] > 0
+                ]
+            )
+            <= max_elevation
         )
 
         for i, j in dist.keys():
@@ -217,12 +229,16 @@ class Graph:
         self.graph, self.coords = ox.graph_from_address(
             address, distance * multiplier, network_type="walk", return_coords=True
         )
+        self.graph = ox.add_node_elevations_google(
+            self.graph, api_key=google_elevation_key
+        )
         self.nodes = self.get_nodes()
         self.node_df = self.get_node_dataframe()
         self.edge_df = self.get_edge_dataframe()
         self.dist_mtrx = self.get_distance_matrix()
         self.adj_mtrx = self.get_adjacency_matrix()
         self.street_cnt_mtrx = self.get_street_count_matrix()
+        self.elv_mtrx = self.get_elevation_matrix()
 
     def get_nodes(self):
         """
@@ -319,6 +335,28 @@ class Graph:
         """
         street_mtrx = {x: len(self.adj_mtrx[x]) for x in self.adj_mtrx}
         return street_mtrx
+
+    def get_elevation_matrix(self):
+        """
+        Create a dictionary with the elevation difference for each edge in the graph.
+
+        Returns:
+        - elevation_diff_dict (dict): Dictionary with edge tuples as keys and elevation differences as values.
+        """
+        # Extract elevation data from node DataFrame
+        elevation_data = {
+            row["node from"]: row["elevation"] for index, row in self.node_df.iterrows()
+        }
+
+        # Calculate elevation differences for each edge
+        elevation_diff_dict = {}
+        for index, row in self.edge_df.iterrows():
+            from_node = row["node from"]
+            to_node = row["node too"]
+            elevation_diff = elevation_data[to_node] - elevation_data[from_node]
+            elevation_diff_dict[(from_node, to_node)] = elevation_diff
+
+        return elevation_diff_dict
 
 
 class RouteParser:
@@ -437,20 +475,22 @@ class MapBuilder:
         # Read the HTML file
         soupy_map = BeautifulSoup(test_map.get_root().render(), "html.parser")
 
-        with open('/app/project/templates/customized_run.html', 'r', encoding='utf-8') as html_file:
+        with open(
+            "/app/project/templates/customized_run.html", "r", encoding="utf-8"
+        ) as html_file:
             html_content = html_file.read()
 
         # Parse the HTML content
-        soup = BeautifulSoup(html_content, 'html.parser')
+        soup = BeautifulSoup(html_content, "html.parser")
 
         # Find the element with the specified id
-        custom_run_div = soup.find('div', {'id': 'custom-run'})
+        custom_run_div = soup.find("div", {"id": "custom-run"})
 
         # Check if the element was found
         if custom_run_div:
             # Extract the element's contents or attributes
-             # Print the element's HTML
-             # Convert the Folium map to an HTML string
+            # Print the element's HTML
+            # Convert the Folium map to an HTML string
             # folium_map_html = test_map.get_root().render()
             # for i in range(10):
             #     print("*")
@@ -460,21 +500,22 @@ class MapBuilder:
             # for i in range(10):
             #     print("*")
             print(custom_run_div.contents)
-            #print(custom_run_div.prettify())  # Print the element's HTML
+            # print(custom_run_div.prettify())  # Print the element's HTML
             # Save the modified HTML back to a file
-            with open('/app/project/templates/customized_run.html', 'w', encoding='utf-8') as modified_file:
+            with open(
+                "/app/project/templates/customized_run.html", "w", encoding="utf-8"
+            ) as modified_file:
                 modified_file.write(str(soup))
-                s3 = boto3.client('s3')
-                bucket_name = os.environ.get('S3_BUCKET_NAME')
-                with open('/app/project/templates/customized_run.html', "rb") as f:
-                    s3.upload_fileobj(f, bucket_name, 'customized_run.html')
+                s3 = boto3.client("s3")
+                bucket_name = os.environ.get("S3_BUCKET_NAME")
+                with open("/app/project/templates/customized_run.html", "rb") as f:
+                    s3.upload_fileobj(f, bucket_name, "customized_run.html")
                 modified_file.close()
                 html_file.close()
-            
 
         else:
             print("Element with id 'custom-run' not found.")
-    
+
     def plot_run_on_map(self, G, lst, fol_map):
         """
         Create a Folium map of the route.
