@@ -23,7 +23,7 @@ Flask-Migrate
 Flask-SQLAlchemy
 folium
 fonttools
-GDAL
+GDAL==3.7.2
 geographiclib
 geopandas
 geopy
