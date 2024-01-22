@@ -477,16 +477,16 @@ class MapBuilder:
         all_coords = self.extract_polyline_coordinates(test_map._repr_html_())
         print("all the damn coordinates round one")
         print(all_coords)
-
+        return all_coords
         # soupy_map = BeautifulSoup(test_map.get_root().render(), "html.parser")
 
-        with open(
-            "/app/project/templates/generated_route.html", "r", encoding="utf-8"
-        ) as html_file:
-            html_content = html_file.read()
-            all_coords = self.extract_polyline_coordinates(html_content)
-            print("all the damn coordinates round too")
-            print(all_coords)
+        # with open(
+        #     "/app/project/templates/generated_route.html", "r", encoding="utf-8"
+        # ) as html_file:
+        #     html_content = html_file.read()
+        #     all_coords = self.extract_polyline_coordinates(html_content)
+        #     print("all the damn coordinates round too")
+        #     print(all_coords)
 
         # Parse the HTML content
         # soup = BeautifulSoup(html_content, "html.parser")

@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, jsonify, render_template, redirect, request, url_for
 
 # from celery.result import AsyncResult
 import boto3
@@ -48,37 +48,42 @@ def loading(task_id):
     if status in ["queued", "started", "deferred", "failed"]:
         return render_template("loading.html", result=status, refresh=True)
     elif status == "finished":
-        return redirect(url_for("main.customized_run"))
+        results = job.results
+        print("the results are:")
+        print(results)
+        waypoints = results[2]
+        return redirect(url_for("main.customized_run", waypoints=waypoints))
     else:
         print(status)
         return render_template("error.html")
+    # s3 = boto3.client("s3")
+    # bucket_name = os.environ.get("S3_BUCKET_NAME")
+    # file_path = (
+    #     "/app/project/templates/customized_run.html"  # Replace with your desired
+    # )
+    # os.remove(file_path)
+    # # Directory path where you want to search for files
+    # directory_path = "/app/project/templates"
+
+    # # File name to search for
+    # file_name = "customized_run.html"
+
+    # # List all files in the directory
+    # all_files = os.listdir(directory_path)
+
+    # # Filter for files with the specified name
+    # matching_files = [file for file in all_files if file == file_name]
+
+    # # Print the names of matching files
+    # for matching_file in matching_files:
+    #     print(matching_file)
+    # s3.download_file(bucket_name, "customized_run.html", file_path)
 
 
-@main.route("/customized_run")
-def customized_run():
-    s3 = boto3.client("s3")
-    bucket_name = os.environ.get("S3_BUCKET_NAME")
-    file_path = (
-        "/app/project/templates/customized_run.html"  # Replace with your desired
-    )
-    os.remove(file_path)
-    # Directory path where you want to search for files
-    directory_path = "/app/project/templates"
-
-    # File name to search for
-    file_name = "customized_run.html"
-
-    # List all files in the directory
-    all_files = os.listdir(directory_path)
-
-    # Filter for files with the specified name
-    matching_files = [file for file in all_files if file == file_name]
-
-    # Print the names of matching files
-    for matching_file in matching_files:
-        print(matching_file)
-    s3.download_file(bucket_name, "customized_run.html", file_path)
-    return render_template("customized_run.html")
+@main.route("/customized_run/<waypoints>")
+def customized_run(waypoints):
+    waypoints = jsonify(waypoints)
+    return render_template("customized_run.html", waypoints=waypoints)
 
 
 @main.route("/leaflet")
