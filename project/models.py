@@ -1,6 +1,7 @@
 import os
 import uuid
 import boto3
+import re
 from bs4 import BeautifulSoup
 import gurobipy as gp
 from gurobipy import GRB
@@ -473,6 +474,9 @@ class MapBuilder:
         test_map = self.plot_run_on_map(graph.graph, final_tour, test_map)
         test_map.save("/app/project/templates/generated_route.html")
         # Read the HTML file
+        all_coords = self.extract_polyline_coordinates(test_map)
+        print("all the damn coordinates")
+        print(all_coords)
         soupy_map = BeautifulSoup(test_map.get_root().render(), "html.parser")
 
         with open(
@@ -531,3 +535,36 @@ class MapBuilder:
         return ox.plot_route_folium(
             G, lst, route_map=fol_map, color="blue", weight=5, opacity=0.7
         )
+
+    import re
+
+    def extract_polyline_coordinates(html_content):
+        # Regular expression to find all polyline instantiations
+        polyline_regex = (
+            r"var poly_line_[\w\d]+ = L.polyline\(\s*\[\s*\[([\s\S]*?)\]\s*\]"
+        )
+
+        # Find all matches
+        polyline_matches = re.findall(polyline_regex, html_content)
+
+        # Process each match to extract coordinates
+        coordinates = []
+        for match in polyline_matches:
+            # Extract individual coordinate pairs
+            coord_pairs = match.split("], [")
+            for pair in coord_pairs:
+                # Clean and split the coordinates
+                lat, lon = pair.replace("[", "").replace("]", "").split(",")
+                coordinates.append((float(lat.strip()), float(lon.strip())))
+
+        # Remove duplicates, preserving the order and the first and last elements
+        unique_coordinates = []
+        seen = set()
+        for coord in coordinates:
+            if coord not in seen or (
+                coord == coordinates[0] or coord == coordinates[-1]
+            ):
+                unique_coordinates.append(coord)
+                seen.add(coord)
+
+        return unique_coordinates
