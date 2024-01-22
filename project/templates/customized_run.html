@@ -58,7 +58,21 @@ Generated Route
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
 <!-- Your JavaScript code for map initialization and other functions -->
 <script>
-    var waypoints = JSON.parse('{{ waypoints| tojson }}');
+    var waypointsString = JSON.parse('{{ waypoints| tojson }}');
+
+    // Remove the surrounding square brackets and split the string into an array of "tuples"
+    let waypointsArray = waypointsString.slice(1, -1).split('), (');
+
+    // Convert each "tuple" string into an actual JavaScript array of numbers
+    let waypoints = waypointsArray.map(function (coord) {
+        // Remove potential leading and trailing parentheses
+        coord = coord.replace(/^\(/, '').replace(/\)$/, '');
+
+        // Split the coordinates by comma and convert them to numbers
+        return coord.split(', ').map(Number);
+    });
+
+    console.log(waypoints);
     let start = waypoints[0];
     var run_map = L.map("run_map", {
         center: start,
