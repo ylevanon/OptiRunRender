@@ -53,7 +53,7 @@ def loading(task_id):
         print("the results are:")
         print(results)
         waypoints = results[2]
-        return redirect(url_for("main.customized_run", waypoints=waypoints))
+        return redirect(url_for("main.customized_run.html", waypoints=waypoints))
     else:
         print(status)
         return render_template("error.html")
