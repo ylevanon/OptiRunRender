@@ -32,7 +32,7 @@ class Model:
             cls._instance = super(Model, cls).__new__(cls)
         return cls._instance
 
-    def build_model(self, dist, elevation, nodes, start, distance, max_elevation):
+    def build_model(self, dist, nodes, start, distance):
         # Variables: vars is the set of edges in the graph, seq is the set of nodes in the graph
         distance = distance * 1609.34
         m = gp.Model()
@@ -53,16 +53,16 @@ class Model:
             gp.quicksum([vars[i, j] * dist[i, j] for i, j in vars.keys()]) >= distance
         )
 
-        m.addConstr(
-            gp.quicksum(
-                [
-                    vars[i, j] * elevation[i, j]
-                    for i, j in vars.keys()
-                    if elevation[i, j] > 0
-                ]
-            )
-            <= max_elevation
-        )
+        # m.addConstr(
+        #     gp.quicksum(
+        #         [
+        #             vars[i, j] * elevation[i, j]
+        #             for i, j in vars.keys()
+        #             if elevation[i, j] > 0
+        #         ]
+        #     )
+        #     <= max_elevation
+        # )
 
         for i, j in dist.keys():
             if i != root and j != root:
