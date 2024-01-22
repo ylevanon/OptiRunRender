@@ -3,7 +3,6 @@ import os
 from flask import Blueprint, jsonify, render_template, redirect, request, url_for
 
 # from celery.result import AsyncResult
-import boto3
 from bs4 import BeautifulSoup
 from rq import Queue
 from .tasks import process_runner_input
