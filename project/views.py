@@ -84,7 +84,7 @@ def loading(task_id):
 @main.route("/customized_run/<waypoints>")
 def customized_run(waypoints):
     # Convert Python list to JSON string
-    return render_template("customized_run.html", waypoints=waypoints)
+    return render_template("main.customized_run.html", waypoints=waypoints)
 
 
 @main.route("/leaflet")
