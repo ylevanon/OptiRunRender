@@ -48,7 +48,7 @@ def loading(task_id):
     if status in ["queued", "started", "deferred", "failed"]:
         return render_template("loading.html", result=status, refresh=True)
     elif status == "finished":
-        results = job.results
+        results = job.result
         print("the results are:")
         print(results)
         waypoints = results[2]
