@@ -4,7 +4,6 @@ from .commands import create_tables
 
 
 from .extensions import db
-from .views import main
 
 # from .utils import make_celery
 
@@ -19,6 +18,9 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = database_url
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
+
+    from .views import main
+
     app.register_blueprint(main)
     app.cli.add_command(create_tables)
     return app
