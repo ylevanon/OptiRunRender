@@ -80,7 +80,8 @@ def customized_run(route_id):
     route = Route.query.get(route_id)
     if route is None:
         abort(404, description="Route not found")
-
+    print("This is route.coordinates!!!!")
+    print(route.coordinates)
     # Pass the coordinates to the template, converting them to a JSON string if needed
     return render_template("customized_run.html", waypoints=route.coordinates)
 
