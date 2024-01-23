@@ -1,14 +1,15 @@
 import os
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from . import app
 
-database_url = os.environ["DATABASE_URL"]
-print("My name is Yoav")
 
-# Check if the URL starts with postgres:// and replace it with postgresql://
+database_url = os.environ["DATABASE_URL"]
 if database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
-print(database_url)
-print("My name is Yoav again!")
-app.config["SQLALCHEMY_DATABASE_URI"] = database_url
-db = SQLAlchemy(app)
+
+
+if __name__ == "__main__":
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DATABASE_URL"]
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db = SQLAlchemy(app)

@@ -1,6 +1,4 @@
-from database import (
-    db,
-)  # Make sure this import is correctly referencing your initialized SQLAlchemy instance
+from database import db
 
 
 class Route(db.Model):
