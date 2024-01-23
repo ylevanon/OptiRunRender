@@ -8,4 +8,4 @@ from .models import Route
 @click.command(name="create_tables")
 @with_appcontext
 def create_tables():
-    db.create_all
+    db.create_all()
