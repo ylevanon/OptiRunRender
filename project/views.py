@@ -2,7 +2,7 @@ from flask import Blueprint, abort, render_template, redirect, request, url_for
 from rq import Queue
 
 from .models import Route
-from .tasks import process_runner_input
+
 from project.worker import conn
 
 main = Blueprint("main", __name__)
@@ -21,6 +21,8 @@ def about():
 
 @main.route("/input", methods=["GET", "POST"])
 def input():
+    from .tasks import process_runner_input
+
     if request.method == "POST":
         form_data = request.form
         job = q.enqueue(process_runner_input, form_data)
