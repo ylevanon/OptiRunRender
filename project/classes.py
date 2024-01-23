@@ -1,7 +1,5 @@
-import os
 import uuid
 import re
-from bs4 import BeautifulSoup
 import gurobipy as gp
 from gurobipy import GRB
 import folium
