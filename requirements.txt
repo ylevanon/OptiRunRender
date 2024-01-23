@@ -48,3 +48,4 @@ sqlalchemy==2.0.16
 flask_sqlalchemy
 psycopg2-binary
 Flask-Migrate
+python-dotenv
