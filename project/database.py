@@ -2,6 +2,12 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from . import app
 
-DATABASE_URL = os.environ["DATABASE_URL"]
-app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+database_url = os.environ["DATABASE_URL"]
+
+
+# Check if the URL starts with postgres:// and replace it with postgresql://
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 db = SQLAlchemy(app)
