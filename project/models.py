@@ -2,8 +2,6 @@ from .extensions import db
 
 
 class Route(db.Model):
-    __tablename__ = "routes"
-
     id = db.Column(db.Integer, primary_key=True)
     coordinates = db.Column(db.JSON)
     distance = db.Column(db.Float)
