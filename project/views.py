@@ -1,14 +1,8 @@
-import json
-import os
-from flask import Blueprint, abort, jsonify, render_template, redirect, request, url_for
-
-# from celery.result import AsyncResult
-from bs4 import BeautifulSoup
+from flask import Blueprint, abort, render_template, redirect, request, url_for
 from rq import Queue
 
-from project.models import Route
+from .models import Route
 from .tasks import process_runner_input
-from .classes import Run, Graph, MapBuilder
 from project.worker import conn
 
 main = Blueprint("main", __name__)
@@ -23,15 +17,6 @@ def index():
 @main.route("/about")
 def about():
     return render_template("about.html")
-
-
-# @main.route("/input", methods=["GET", "POST"])
-# def input():
-#     if request.method == "POST":
-#         form_data = request.form
-#         task = process_runner_input.delay(form_data)
-#         return redirect(url_for("main.loading", task_id=task))
-#     return render_template("input.html")
 
 
 @main.route("/input", methods=["GET", "POST"])

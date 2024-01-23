@@ -1,4 +1,4 @@
-from project.database import db
+from .extensions import db
 
 
 class Route(db.Model):
