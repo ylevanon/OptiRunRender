@@ -10,6 +10,6 @@ if database_url.startswith("postgres://"):
 
 
 if __name__ == "__main__":
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DATABASE_URL"]
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_url
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db = SQLAlchemy(app)
