@@ -1,10 +1,12 @@
 import json
 import os
-from flask import Blueprint, jsonify, render_template, redirect, request, url_for
+from flask import Blueprint, abort, jsonify, render_template, redirect, request, url_for
 
 # from celery.result import AsyncResult
 from bs4 import BeautifulSoup
 from rq import Queue
+
+from project.models import Route
 from .tasks import process_runner_input
 from .classes import Run, Graph, MapBuilder
 from project.worker import conn
@@ -51,8 +53,7 @@ def loading(task_id):
         results = job.result
         print("the results are:")
         print(results)
-        waypoints = results[2]
-        return redirect(url_for("main.customized_run", waypoints=waypoints))
+        return redirect(url_for("main.customized_run", route_id=results[0]))
     else:
         print(status)
         return render_template("error.html")
@@ -80,10 +81,21 @@ def loading(task_id):
     # s3.download_file(bucket_name, "customized_run.html", file_path)
 
 
-@main.route("/customized_run/<waypoints>")
-def customized_run(waypoints):
-    # Convert Python list to JSON string
-    return render_template("customized_run.html", waypoints=waypoints)
+# @main.route("/customized_run/<waypoints>")
+# def customized_run(waypoints):
+#     # Convert Python list to JSON string
+#     return render_template("customized_run.html", waypoints=waypoints)
+
+
+@main.route("/customized_run/<route_id>")
+def customized_run(route_id):
+    # Query the database for the Route with the provided ID
+    route = Route.query.get(route_id)
+    if route is None:
+        abort(404, description="Route not found")
+
+    # Pass the coordinates to the template, converting them to a JSON string if needed
+    return render_template("customized_run.html", waypoints=route.coordinates)
 
 
 @main.route("/leaflet")

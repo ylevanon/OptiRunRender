@@ -1,3 +1,4 @@
+from project.models import Route
 from .classes import Model, Run, Graph, RouteParser, MapBuilder
 
 
@@ -24,4 +25,10 @@ def process_runner_input(form_data):
     map_builder = MapBuilder()
     coordinates = map_builder.generate_run_map(run, graph, final_tour)
     # return "customized_run.html", round(route_length / 1609.34, 2)
-    return [run.address, run.distance, coordinates, round(route_length / 1609.34, 2)]
+    route = Route(
+        coordinates=coordinates,
+        distance=round(route_length / 1609.34, 2),
+        address=form_data["address"],
+    )
+    # return [run.address, run.distance, coordinates, round(route_length / 1609.34, 2)]
+    return route.id
