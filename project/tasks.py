@@ -1,4 +1,4 @@
-from project.models import Route
+from .models import Route, db
 from .classes import Model, Run, Graph, RouteParser, MapBuilder
 
 
@@ -30,5 +30,7 @@ def process_runner_input(form_data):
         distance=round(route_length / 1609.34, 2),
         address=form_data["address"],
     )
+    db.session.add(route)
+    db.session.commit()
     # return [run.address, run.distance, coordinates, round(route_length / 1609.34, 2)]
     return route.id
