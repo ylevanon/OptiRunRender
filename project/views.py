@@ -40,7 +40,7 @@ def loading(task_id):
         results = job.result
         print("the results are:")
         print(results)
-        return redirect(url_for("main.customized_run", route_id=results[0]))
+        return redirect(url_for("main.customized_run", route_id=results))
     else:
         print(status)
         return render_template("error.html")
