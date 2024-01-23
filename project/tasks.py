@@ -1,9 +1,8 @@
-from project import create_app
 from .models import Route, db
 from .classes import Model, Run, Graph, RouteParser, MapBuilder
+from flask import current_app
 
-app = create_app()
-app.app_context().push()
+current_app.app_context().push()
 
 
 def process_runner_input(form_data):
