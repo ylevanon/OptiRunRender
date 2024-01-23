@@ -57,7 +57,7 @@ Generated Route
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
 <!-- Your JavaScript code for map initialization and other functions -->
-<script>
+<!-- <script>
     var waypointsString = JSON.parse('{{ waypoints| tojson }}');
 
     // Remove the surrounding square brackets and split the string into an array of "tuples"
@@ -108,6 +108,52 @@ Generated Route
     // Fit map to waypoints
     run_map.fitBounds(waypoints);
 
+</script> -->
+
+<script>
+    // Since 'waypoints' is already in the correct format, you can use it directly
+    var waypoints = JSON.parse('{{ waypoints| tojson }}');
+
+    console.log(waypoints);
+    let start = waypoints[0];
+    var run_map = L.map("run_map", {
+        center: start,
+        crs: L.CRS.EPSG3857,
+        zoom: 100,
+        zoomControl: true,
+        preferCanvas: false,
+    });
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        "attribution": "Data by &copy; <a target='_blank' href='http://openstreetmap.org'>OpenStreetMap</a>, under <a target='_blank' href='http://www.openstreetmap.org/copyright'>ODbL</a>.",
+        "detectRetina": false,
+        "maxNativeZoom": 18,
+        "maxZoom": 18,
+        "minZoom": 0,
+        "noWrap": false,
+        "opacity": 1,
+        "subdomains": "abc",
+        "tms": false
+    }).addTo(run_map);
+
+    L.marker(start).addTo(run_map);  // Add start marker
+
+    // Loop through waypoints to create polylines
+    waypoints.forEach(function (point, index) {
+        if (index < waypoints.length - 1) {
+            L.polyline([point, waypoints[index + 1]], {
+                "color": "blue",
+                "weight": 5,
+                "opacity": 0.7
+            }).addTo(run_map);
+        }
+    });
+
+    // Fit map to waypoints
+    run_map.fitBounds(waypoints);
 </script>
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}
