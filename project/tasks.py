@@ -10,6 +10,7 @@ def process_runner_input(form_data):
     max_incline = float(form_data["incline"]) / 100
     distance = float(form_data["distance"])
     gain = float(form_data["gain"])
+    friendliness = float(form_data["friendliness"])
     graph = Graph(distance=distance, address=form_data["address"])
     run = Run(distance=form_data["distance"], address=form_data["address"], graph=graph)
     route_parser = RouteParser()
@@ -25,6 +26,8 @@ def process_runner_input(form_data):
         distance,
         graph.get_elevation_matrix(),
         gain,
+        graph.get_terrain_matrix(),
+        friendliness,
     )
 
     route_length = route_parser.find_route_length(selected, dist_mtrx)

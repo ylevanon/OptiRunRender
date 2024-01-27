@@ -31,7 +31,18 @@ class Model:
             cls._instance = super(Model, cls).__new__(cls)
         return cls._instance
 
-    def build_model(self, dist, nodes, start, distance, elev, gain):
+    def build_model(
+        self, dist, nodes, start, distance, elev, gain, terrain, friendliness
+    ):
+        friendly_terrains = [
+            "footway",
+            "residential",
+            "bridleway",
+            "path",
+            "track",
+            "living_street",
+        ]
+
         # Variables: vars is the set of edges in the graph, seq is the set of nodes in the graph
         distance = distance * 1609.34
         m = gp.Model()
@@ -58,6 +69,39 @@ class Model:
                 [vars[i, j] * elev[i, j] for i, j in vars.keys() if elev[i, j] > 0]
             )
             <= gain
+        )
+
+        # Constraint: friendliness % of the route or more must belong to pedestrian 'highway'
+
+        # m.addConstr(
+        #     gp.quicksum(
+        #         [
+        #             vars[i, j] * dist[i, j]
+        #             for i, j in vars.keys()
+        #             if terrain[i, j] in friendly_terrains
+        #         ]
+        #     )
+        #     / gp.quicksum(vars[i, j] * dist[i, j] for i, j in vars.keys())
+        #     >= friendliness
+        # )
+
+        m.addConstr(
+            gp.quicksum(
+                [
+                    vars[i, j] * dist[i, j]
+                    for i, j in vars.keys()
+                    if any(
+                        terrain_type in friendly_terrains
+                        for terrain_type in (
+                            terrain[i, j]
+                            if isinstance(terrain[i, j], list)
+                            else [terrain[i, j]]
+                        )
+                    )
+                ]
+            )
+            / gp.quicksum(vars[i, j] * dist[i, j] for i, j in vars.keys())
+            >= friendliness
         )
 
         for i, j in dist.keys():
@@ -236,6 +280,7 @@ class Graph:
         self.adj_mtrx = self.get_adjacency_matrix()
         self.street_cnt_mtrx = self.get_street_count_matrix()
         self.elv_mtrx = self.get_elevation_matrix()
+        self.terrain_mtrx = self.get_terrain_matrix()
 
     def get_nodes(self):
         """
@@ -302,6 +347,23 @@ class Graph:
         )
         dist_mtrx = dict(zip(copy_edge_df["from too"], copy_edge_df["length"]))
         return dist_mtrx
+
+    def get_terrain_matrix(self):
+        """
+        Create a terrain matrix based on the edge database.
+
+        Parameters:
+        - database (pd.DataFrame): DataFrame containing edge information.
+
+        Returns:
+        - dist (dict): Dictionary representing the terrain matrix.
+        """
+        copy_edge_df = self.edge_df.copy(deep=True)
+        copy_edge_df["from too"] = list(
+            zip(copy_edge_df["node from"], copy_edge_df["node too"])
+        )
+        terrain_mtrx = dict(zip(copy_edge_df["from too"], copy_edge_df["highway"]))
+        return terrain_mtrx
 
     def get_adjacency_matrix(self):
         """

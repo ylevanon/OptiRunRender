@@ -34,10 +34,12 @@ class TestGraph(unittest.TestCase):
         elv_mtrx = self.graph.get_elevation_matrix()
         self.assertIsInstance(dist_mtrx, dict)
         self.assertGreater(len(dist_mtrx), 0)
-        print(len(dist_mtrx))
-        print(len(elv_mtrx))
         print(dist_mtrx.keys())
         print(elv_mtrx.keys())
+
+    def test_get_terrain_matrix(self):
+        terra_mtrx = self.graph.get_terrain_matrix()
+        print(terra_mtrx)
 
     def test_get_adjacency_matrix(self):
         adj_mtrx = self.graph.get_adjacency_matrix()
