@@ -25,6 +25,7 @@ class TestGraph(unittest.TestCase):
 
     def test_get_edge_dataframe(self):
         edge_df = self.graph.get_edge_dataframe()
+        print(edge_df)
         self.assertIsInstance(edge_df, pd.DataFrame)
         self.assertGreater(len(edge_df), 0)
 

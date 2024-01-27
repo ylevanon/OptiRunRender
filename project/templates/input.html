@@ -33,28 +33,11 @@
                     <input type="number" class="form-control" id="gain" name="gain" min="0" required>
                 </div>
                 <div class="mb-3">
-                    <label for="terrain">Terrain Type:</label>
-                    <select class="form-select" id="terrain" name="terrain">
-                        <option value="urban">Urban</option>
-                        <option value="park">Park</option>
-                        <option value="trail">Trail</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="difficulty">Difficulty Level:</label>
-                    <select class="form-select" id="difficulty" name="difficulty">
-                        <option value="easy">Easy</option>
-                        <option value="moderate">Moderate</option>
-                        <option value="challenging">Challenging</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="surface">Surface Type:</label>
-                    <select class="form-select" id="surface" name="surface">
-                        <option value="pavement">Pavement</option>
-                        <option value="gravel">Gravel</option>
-                        <option value="dirt">Dirt</option>
-                    </select>
+                    <label for="friendliness">Route Friendliness (0-100):</label>
+                    <input type="number" class="form-control" id="friendliness" name="friendliness" min="0" max="100"
+                        placeholder="0 (not pedestrian-focused) to 100 (only pedestrian)"
+                        title="A higher value indicates a preference for pedestrian-first routes. Note: Higher values may increase route finding time."
+                        required>
                 </div>
                 <!-- Add more form fields as needed -->
                 <button type="submit" class="btn btn-teal rounded-pill custom-larger-pill">Submit</button>

@@ -24,7 +24,6 @@ def process_runner_input(form_data):
         run.model_root_node,
         distance,
         graph.get_elevation_matrix(),
-        max_incline,
         gain,
     )
 

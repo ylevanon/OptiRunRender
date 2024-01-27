@@ -6,6 +6,8 @@ import folium
 import networkx as nx
 import osmnx as ox
 import pandas as pd
+
+pd.set_option("display.max_columns", None)
 import networkx as nx
 import warnings
 from collections import deque
@@ -29,7 +31,7 @@ class Model:
             cls._instance = super(Model, cls).__new__(cls)
         return cls._instance
 
-    def build_model(self, dist, nodes, start, distance, elev, max_incline, gain):
+    def build_model(self, dist, nodes, start, distance, elev, gain):
         # Variables: vars is the set of edges in the graph, seq is the set of nodes in the graph
         distance = distance * 1609.34
         m = gp.Model()
