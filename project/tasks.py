@@ -7,7 +7,9 @@ app.app_context().push()
 
 
 def process_runner_input(form_data):
+    max_incline = float(form_data["incline"]) / 100
     distance = float(form_data["distance"])
+    gain = float(form_data["gain"])
     graph = Graph(distance=distance, address=form_data["address"])
     run = Run(distance=form_data["distance"], address=form_data["address"], graph=graph)
     route_parser = RouteParser()
@@ -17,7 +19,13 @@ def process_runner_input(form_data):
     model = Model()
     dist_mtrx = graph.get_distance_matrix()
     selected = model.build_model(
-        graph.get_distance_matrix(), graph.get_nodes(), run.model_root_node, distance
+        dist_mtrx,
+        graph.get_nodes(),
+        run.model_root_node,
+        distance,
+        graph.get_elevation_matrix(),
+        max_incline,
+        gain,
     )
 
     route_length = route_parser.find_route_length(selected, dist_mtrx)
