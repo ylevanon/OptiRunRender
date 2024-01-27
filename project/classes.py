@@ -100,7 +100,7 @@ class Model:
                     )
                 ]
             )
-            / dist
+            / distance
             >= friendliness
         )
 
