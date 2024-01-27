@@ -107,7 +107,7 @@ class Model:
                 ]
             )
             / distance
-            >= friendliness
+            >= (friendliness / 100)
         )
 
         for i, j in dist.keys():
