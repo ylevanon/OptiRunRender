@@ -46,6 +46,8 @@ class Model:
         # Variables: vars is the set of edges in the graph, seq is the set of nodes in the graph
         distance = distance * 1609.34
         m = gp.Model()
+        print("Terrain types in SLO")
+        print(terrain)
         vars = m.addVars(dist.keys(), obj=dist, vtype=GRB.BINARY, name="x")
         seq = m.addVars(nodes, obj=nodes, vtype=GRB.INTEGER, name="u")
         root = start
