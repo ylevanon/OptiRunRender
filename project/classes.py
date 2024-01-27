@@ -100,7 +100,7 @@ class Model:
                     )
                 ]
             )
-            / gp.quicksum(vars[i, j] * dist[i, j] for i, j in vars.keys())
+            / dist
             >= friendliness
         )
 
