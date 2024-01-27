@@ -41,6 +41,10 @@ class Model:
             "path",
             "track",
             "living_street",
+            "service",
+            "tertiary",
+            "footway",
+            "trunk",
         ]
 
         # Variables: vars is the set of edges in the graph, seq is the set of nodes in the graph
