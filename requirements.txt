@@ -51,3 +51,4 @@ flask_sqlalchemy
 psycopg2-binary
 Flask-Migrate
 python-dotenv
+email_validator
