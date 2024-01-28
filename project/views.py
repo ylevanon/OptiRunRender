@@ -7,13 +7,52 @@ from .forms import LoginForm, RegistrationForm
 from .models import User
 from .models import Route
 from project.worker import conn
+from .extensions import db
 
 main = Blueprint("main", __name__)
 q = Queue(connection=conn)
 
 
-@main.route("/login", methods=["GET", "POST"])
-def login():
+@main.route("/landing")
+@login_required
+def landing():
+    # This is your current index route, now serving as the landing page
+    return render_template("landing.html", current_user=current_user)
+
+
+@main.route("/", methods=["GET", "POST"])
+def index():
+    if current_user.is_authenticated:
+        return redirect(url_for("main.landing"))
+
+    login_form = LoginForm(prefix="login")
+    register_form = RegistrationForm(prefix="register")
+
+    if "login-submit" in request.form and login_form.validate_on_submit():
+        user = User.query.filter_by(email=login_form.email.data).first()
+        if user and user.check_password(login_form.password.data):
+            login_user(user, remember=login_form.remember_me.data)
+            next_page = request.args.get("next")
+            if not next_page or urlparse(next_page).netloc != "":
+                next_page = url_for("main.landing")
+            return redirect(next_page)
+        elif "login-submit" in request.form:
+            flash("Invalid email or password")
+
+    if "register-submit" in request.form and register_form.validate_on_submit():
+        user = User(email=register_form.email.data)
+        user.set_password(register_form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash("Congratulations, you are now a registered user!")
+        return redirect(url_for("main.login"))
+
+    return render_template(
+        "login_register.html", login_form=login_form, register_form=register_form
+    )
+
+    # @main.route("/login", methods=["GET", "POST"])
+    # def login():
     if current_user.is_authenticated:
         return redirect(url_for("main.index"))
     form = LoginForm()
@@ -35,9 +74,8 @@ def logout():
     logout_user()
     return redirect(url_for("main.index"))
 
-
-@main.route("/register", methods=["GET", "POST"])
-def register():
+    # @main.route("/register", methods=["GET", "POST"])
+    # def register():
     if current_user.is_authenticated:
         return redirect(url_for("main.index"))
     from .extensions import db
@@ -51,11 +89,6 @@ def register():
         flash("Congratulations, you are now a registered user!")
         return redirect(url_for("main.login"))
     return render_template("register.html", title="Register", form=form)
-
-
-@main.route("/")
-def index():
-    return render_template("index.html", current_user=current_user)
 
 
 @main.route("/about")

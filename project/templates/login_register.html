@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Login/Register - Opti-Run{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="my-4">Login</h2>
+            <form method="post" action="{{ url_for('main.login') }}">
+                {{ login_form.hidden_tag() }}
+                <div class="form-group">
+                    {{ login_form.email.label(class="form-label") }}
+                    {{ login_form.email(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ login_form.password.label(class="form-label") }}
+                    {{ login_form.password(class="form-control") }}
+                </div>
+                <div class="text-center mt-4">
+                    {{ login_form.submit(class="btn btn-teal rounded-pill custom-larger-pill") }}
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h2 class="my-4">Register</h2>
+            <form method="post" action="{{ url_for('main.register') }}">
+                {{ register_form.hidden_tag() }}
+                <div class="form-group">
+                    {{ register_form.first_name.label(class="form-label") }}
+                    {{ register_form.first_name(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ register_form.last_name.label(class="form-label") }}
+                    {{ register_form.last_name(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ register_form.email.label(class="form-label") }}
+                    {{ register_form.email(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ register_form.password.label(class="form-label") }}
+                    {{ register_form.password(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ register_form.password2.label(class="form-label") }}
+                    {{ register_form.password2(class="form-control") }}
+                </div>
+                <div class="text-center mt-4">
+                    {{ register_form.submit(class="btn btn-teal rounded-pill custom-larger-pill") }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
