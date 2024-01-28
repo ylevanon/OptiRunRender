@@ -40,7 +40,11 @@ def index():
             flash("Invalid email or password")
 
     if "register-submit" in request.form and register_form.validate_on_submit():
-        user = User(email=register_form.email.data)
+        user = User(
+            first_name=register_form.first_name.data,
+            last_name=register_form.last_name.data,
+            email=register_form.email.data,
+        )
         user.set_password(register_form.password.data)
         db.session.add(user)
         db.session.commit()
