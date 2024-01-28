@@ -4,6 +4,7 @@ import os
 from .extensions import db
 from .commands import create_tables
 from .models import User  # Import the User model
+from flask_migrate import Migrate
 
 
 from .extensions import db
@@ -23,6 +24,7 @@ def create_app():
     app.config["SECRET_KEY"] = os.environ["SECRET_KEY"]
     db.init_app(app)
 
+    migrate = Migrate(app, db)
     # Initialize Flask-Login
     login_manager = LoginManager(app)
     login_manager.login_view = "main.login"  # Specify the login view
