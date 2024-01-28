@@ -42,6 +42,8 @@ celery
 redis
 rq
 flask
+flask_login
+flask-wtf
 beautifulsoup4
 gunicorn
 sqlalchemy==2.0.16

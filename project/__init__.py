@@ -1,6 +1,9 @@
 from flask import Flask
+from flask_login import LoginManager
 import os
+from .extensions import db
 from .commands import create_tables
+from .models import User  # Import the User model
 
 
 from .extensions import db
@@ -18,6 +21,14 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = database_url
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
+
+    # Initialize Flask-Login
+    login_manager = LoginManager(app)
+    login_manager.login_view = "main.login"  # Specify the login view
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
     from .views import main
 

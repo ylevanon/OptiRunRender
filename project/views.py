@@ -1,12 +1,56 @@
 from flask import Blueprint, abort, render_template, redirect, request, url_for
 from rq import Queue
-
+from flask import render_template, flash, redirect, url_for
+from flask_login import current_user, login_user, logout_user, login_required
+from werkzeug.urls import url_parse
+from .forms import LoginForm, RegistrationForm
+from .models import User
 from .models import Route
-
 from project.worker import conn
 
 main = Blueprint("main", __name__)
 q = Queue(connection=conn)
+
+
+@main.route("/login", methods=["GET", "POST"])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("main.index"))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash("Invalid username or password")
+            return redirect(url_for("main.login"))
+        login_user(user, remember=form.remember_me.data)
+        next_page = request.args.get("next")
+        if not next_page or url_parse(next_page).netloc != "":
+            next_page = url_for("main.index")
+        return redirect(next_page)
+    return render_template("login.html", title="Sign In", form=form)
+
+
+@main.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("main.index"))
+
+
+@main.route("/register", methods=["GET", "POST"])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("main.index"))
+    from .extensions import db
+
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash("Congratulations, you are now a registered user!")
+        return redirect(url_for("main.login"))
+    return render_template("register.html", title="Register", form=form)
 
 
 @main.route("/")
@@ -44,34 +88,6 @@ def loading(task_id):
     else:
         print(status)
         return render_template("error.html")
-    # s3 = boto3.client("s3")
-    # bucket_name = os.environ.get("S3_BUCKET_NAME")
-    # file_path = (
-    #     "/app/project/templates/customized_run.html"  # Replace with your desired
-    # )
-    # os.remove(file_path)
-    # # Directory path where you want to search for files
-    # directory_path = "/app/project/templates"
-
-    # # File name to search for
-    # file_name = "customized_run.html"
-
-    # # List all files in the directory
-    # all_files = os.listdir(directory_path)
-
-    # # Filter for files with the specified name
-    # matching_files = [file for file in all_files if file == file_name]
-
-    # # Print the names of matching files
-    # for matching_file in matching_files:
-    #     print(matching_file)
-    # s3.download_file(bucket_name, "customized_run.html", file_path)
-
-
-# @main.route("/customized_run/<waypoints>")
-# def customized_run(waypoints):
-#     # Convert Python list to JSON string
-#     return render_template("customized_run.html", waypoints=waypoints)
 
 
 @main.route("/customized_run/<route_id>")
@@ -93,33 +109,3 @@ def leaflet():
         {"lat": 47.6951402, "lng": -122.1266353},
     ]
     return render_template("leaflet.html", waypoints=waypoints)
-
-
-# @main.route("/loading/<task_id>")
-# def loading(task_id):
-#     task = AsyncResult(task_id)
-#     state = task.state
-#     if state =="STARTED" or state=="PENDING":
-#         return render_template("loading.html", result=state, refresh=True)
-#     elif state == "SUCCESS":
-#         print(task.status)
-#         result = task.result
-#         print(result)
-#         print(len(result))
-#         address = result[0]
-#         distance = float(result[1])
-#         tour = result[2]
-#         route_length = result[3]
-#         graph = Graph(distance=distance, address=address)
-#         run = Run(distance=distance, address=address, graph=graph)
-#         map_builder = MapBuilder()
-#         map_builder.generate_run_map(run, graph, tour)
-#         # generated_run_html, distance= result  # Extract distance and generated_run_html
-#         # return render_template(
-#         #     "customized_run.html", distance=distance)
-
-#         return render_template(
-#             "customized_run.html", distance=route_length)
-#     else:
-#         print(state)
-#         return render_template("error.html")
