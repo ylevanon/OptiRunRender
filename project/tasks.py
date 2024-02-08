@@ -7,7 +7,6 @@ app.app_context().push()
 
 
 def process_runner_input(form_data):
-    max_incline = float(form_data["incline"]) / 100
     distance = float(form_data["distance"])
     gain = float(form_data["gain"])
     friendliness = float(form_data["friendliness"])
