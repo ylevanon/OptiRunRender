@@ -19,18 +19,15 @@
                 </div>
                 <hr>
                 <div class="mb-3">
-                    <label for="distance">Running Distance:</label>
+                    <label for="distance">Running Distance (miles):</label>
                     <input type="number" class="form-control" id="distance" name="distance" min="0.5" max="3"
-                        step="0.01" required>
+                        placeholder="0.1 to 3 miles accepted in beta" step="0.01" required>
                 </div>
                 <div class="mb-3">
-                    <label for="incline">Max Incline on Run (%):</label>
-                    <input type="number" class="form-control" id="incline" name="incline" min="0" max="15" step="0.1"
+                    <label for="gain">Max Elevation Gain (feet):</label>
+                    <input type="number" class="form-control" id="gain" name="gain" min="0"
+                        placeholder="total net positive elevation gained 0 for completely flat 10000+ for no preference "
                         required>
-                </div>
-                <div class="mb-3">
-                    <label for="gain">Max Overall Elevation Gain:</label>
-                    <input type="number" class="form-control" id="gain" name="gain" min="0" required>
                 </div>
                 <div class="mb-3">
                     <label for="friendliness">Route Friendliness (0-100):</label>
