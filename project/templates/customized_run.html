@@ -6,14 +6,14 @@ Generated Route
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <!-- Search Bar + Map Section -->
+    <!-- <div class="row">
+        Search Bar + Map Section
         <div class="col">
             <div id="custom-run" style="height: 600px;">
                 <div class="folium-map" id="run_map"></div>
             </div>
         </div>
-        <!-- Route Info Section -->
+        Route Info Section
         <div class="col">
             <div class="card">
                 <div class="card-body text-center">
@@ -21,6 +21,50 @@ Generated Route
                     <p class="card-text">Get ready to hit the pavement! Here's the route we've generated for you.
                         You're about to run {{ distance }} miles!
                     </p>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Image with Background and Button -->
+    <div class="container-fluid">
+        <!-- Search Bar + Map Section -->
+        <div class="col">
+            <div id="custom-run" style="height: 600px;">
+                <div class="folium-map" id="run_map"></div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row mt-4">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-route fa-3x mb-3" style="color: teal;"></i>
+                    <h5 class="card-title">Route Distance</h5>
+                    <p class="card-text">Get ready to hit the pavement! Here's the route we've generated for you.
+                        You're about to run {{ distance }} miles!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-binoculars fa-3x mb-3" style="color: teal;"></i>
+                    <h5 class="card-title">Elevation Gain</h5>
+                    <p class="card-text">Get ready to hit the pavement! Here's the route we've generated for you.
+                        You're about to run {{ distance }} miles!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-paw fa-3x mb-3" style="color: teal;"></i>
+                    <h5 class="card-title">Friendly Terrain</h5>
+                    <p class="card-text">Get ready to hit the pavement! Here's the route we've generated for you.
+                        You're about to run {{ distance }} miles!</p>
                 </div>
             </div>
         </div>
