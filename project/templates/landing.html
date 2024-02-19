@@ -17,8 +17,7 @@
     <div class="container-fluid bg-img">
         <div class="container text-center text-white py-5 ">
             {% if current_user.is_authenticated %}
-            <h1 class="mt-5 custom-padding">Welcome, {{ current_user.first_name }}!</h1>
-            <h1 class="mt-5 custom-padding">Explore Opti-Run</h1>
+            <h1 class="mt-5 custom-padding">Welcome, {{ current_user.first_name }}!<br />Explore Opti-Run</h1>
             {% else %}
             <h1 class="mt-5 custom-padding">Explore Opti-Run</h1>
             {% endif %}
