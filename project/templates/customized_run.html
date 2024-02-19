@@ -129,7 +129,7 @@ Generated Route
         "tms": false
     }).addTo(run_map);
 
-    L.marker(start).addTo(run_map);  // Add start marker
+    L.marker(waypoints[waypoints.length - 1]).addTo(run_map);  // Add start marker
 
     // Loop through waypoints to create polylines
     waypoints.forEach(function (point, index) {
