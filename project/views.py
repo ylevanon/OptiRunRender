@@ -13,15 +13,44 @@ main = Blueprint("main", __name__)
 q = Queue(connection=conn)
 
 
-@main.route("/landing")
-@login_required
-def landing():
-    # This is your current index route, now serving as the landing page
-    return render_template("landing.html", current_user=current_user)
-
-
-@main.route("/", methods=["GET", "POST"])
+@main.route("/")
 def index():
+    if current_user.is_authenticated:
+        return redirect(url_for("main.landing"))
+    return redirect(
+        url_for("main.login")
+    )  # Redirect unauthenticated users to login page
+
+
+# @main.route("/", methods=["GET", "POST"])
+# def index():
+# if current_user.is_authenticated:
+#     return redirect(url_for("main.landing"))
+
+# login_form = LoginForm(prefix="login")
+# print("Request form contents:")
+# print(request.form)
+# if "login-submit" in request.form and login_form.validate_on_submit():
+#     user = User.query.filter_by(email=login_form.email.data).first()
+#     print("user logging in:")
+#     print(user)
+#     print(
+#         "check password is a " + str(user.check_password(login_form.password.data))
+#     )
+#     if user and user.check_password(login_form.password.data):
+#         login_user(user)
+#         next_page = request.args.get("next")
+#         if not next_page or urlparse(next_page).netloc != "":
+#             next_page = url_for("main.landing")
+#         return redirect(next_page)
+#     elif "login-submit" in request.form:
+#         flash("Invalid email or password")
+
+# return render_template("login.html", login_form=login_form)
+
+
+@main.route("/login", methods=["GET", "POST"])
+def login():
     if current_user.is_authenticated:
         return redirect(url_for("main.landing"))
 
@@ -45,6 +74,13 @@ def index():
             flash("Invalid email or password")
 
     return render_template("login.html", login_form=login_form)
+
+
+@main.route("/landing")
+@login_required
+def landing():
+    # This is your current index route, now serving as the landing page
+    return render_template("landing.html", current_user=current_user)
 
 
 @main.route("/register", methods=["GET", "POST"])

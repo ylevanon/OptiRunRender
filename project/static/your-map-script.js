@@ -8,6 +8,18 @@ function initMap() {
     //     ext: 'png'
     // }).addTo(map);
 
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        "attribution": "Data by &copy; <a target='_blank' href='http://openstreetmap.org'>OpenStreetMap</a>, under <a target='_blank' href='http://www.openstreetmap.org/copyright'>ODbL</a>.",
+        "detectRetina": false,
+        "maxNativeZoom": 18,
+        "maxZoom": 18,
+        "minZoom": 0,
+        "noWrap": false,
+        "opacity": 1,
+        "subdomains": "abc",
+        "tms": false
+    }).addTo(map);
+
     // Declare a variable to store the marker
     var marker;
 
