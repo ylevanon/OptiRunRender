@@ -26,7 +26,6 @@ def index():
         return redirect(url_for("main.landing"))
 
     login_form = LoginForm(prefix="login")
-    register_form = RegistrationForm(prefix="register")
     print("Request form contents:")
     print(request.form)
     if "login-submit" in request.form and login_form.validate_on_submit():
@@ -45,6 +44,17 @@ def index():
         elif "login-submit" in request.form:
             flash("Invalid email or password")
 
+    return render_template("login.html", login_form=login_form)
+
+
+@main.route("/register", methods=["GET", "POST"])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("main.landing"))
+
+    register_form = RegistrationForm(prefix="register")
+    print("Request form contents:")
+    print(request.form)
     if "register-submit" in request.form and register_form.validate_on_submit():
         print("creating a user!")
         user = User(
@@ -60,9 +70,7 @@ def index():
         flash("Congratulations, you are now a registered user!")
         return redirect(url_for("main.landing"))
 
-    return render_template(
-        "login_register.html", login_form=login_form, register_form=register_form
-    )
+    return render_template("register.html", register_form=register_form)
 
 
 @main.route("/logout")
