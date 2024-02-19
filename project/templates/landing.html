@@ -7,8 +7,7 @@
 <div class="container">
 
     {% if current_user.is_authenticated %}
-    <p>Welcome, {{ current_user.first_name }}!</p>
-    <a href="{{ url_for('main.logout') }}" class="btn btn-primary">Logout</a>
+    <a href="{{ url_for('main.logout') }}" class=" btn btn-teal rounded-pill custom-larger-pill">Logout</a>
     {% else %}
     <p>You are not logged in. <a href="{{ url_for('main.login') }}">Login</a> or <a
             href="{{ url_for('main.register') }}">Register</a></p>
@@ -17,7 +16,12 @@
     <!-- Image with Background and Button -->
     <div class="container-fluid bg-img">
         <div class="container text-center text-white py-5 ">
+            {% if current_user.is_authenticated %}
+            <h1 class="mt-5 custom-padding">Welcome, {{ current_user.first_name }}!</h1>
             <h1 class="mt-5 custom-padding">Explore Opti-Run</h1>
+            {% else %}
+            <h1 class="mt-5 custom-padding">Explore Opti-Run</h1>
+            {% endif %}
             <p class="mb-4">Discover the perfect running routes with just a few clicks.</p>
             <a href="/input" class=" btn btn-teal rounded-pill custom-larger-pill">Get
                 Started</a>
