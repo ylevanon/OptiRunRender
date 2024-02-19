@@ -44,14 +44,17 @@ def index():
             flash("Invalid email or password")
 
     if "register-submit" in request.form and register_form.validate_on_submit():
+        print("creating a user!")
         user = User(
             first_name=register_form.first_name.data,
             last_name=register_form.last_name.data,
             email=register_form.email.data,
         )
         user.set_password(register_form.password.data)
+        print("about to add user to the database")
         db.session.add(user)
         db.session.commit()
+        print("successfully added user!")
         flash("Congratulations, you are now a registered user!")
         return redirect(url_for("main.landing"))
 
