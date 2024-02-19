@@ -36,7 +36,7 @@ def index():
             "check password is a " + str(user.check_password(login_form.password.data))
         )
         if user and user.check_password(login_form.password.data):
-            login_user(user, remember=login_form.remember_me.data)
+            login_user(user)
             next_page = request.args.get("next")
             if not next_page or urlparse(next_page).netloc != "":
                 next_page = url_for("main.landing")
@@ -63,6 +63,11 @@ def register():
         print("about to add user to the database")
         db.session.add(user)
         db.session.commit()
+        login_user(user)
+        next_page = request.args.get("next")
+        if not next_page or urlparse(next_page).netloc != "":
+            next_page = url_for("main.landing")
+            return redirect(next_page)
         print("successfully added user!")
         flash("Congratulations, you are now a registered user!")
         return redirect(url_for("main.landing"))
@@ -124,7 +129,7 @@ def customized_run(route_id):
 
     # Pass the coordinates to the template, converting them to a JSON string if needed
     return render_template(
-        "customized_run.html", waypoints=route.coordinates, distance=route.distance
+        "customized_run.html", distance=route.distance, waypoints=route.coordinates
     )
 
 
