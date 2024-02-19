@@ -1,4 +1,5 @@
 from project import create_app
+from flask_login import current_user  # Make sure to import current_user
 from .models import Route, db
 from .classes import Model, Run, Graph, RouteParser, MapBuilder
 
@@ -6,7 +7,7 @@ app = create_app()
 app.app_context().push()
 
 
-def process_runner_input(form_data):
+def process_runner_input(form_data, user_id=None):
     distance = float(form_data["distance"])
     gain = float(form_data["gain"])
     friendliness = float(form_data["friendliness"])
@@ -37,11 +38,16 @@ def process_runner_input(form_data):
 
     map_builder = MapBuilder()
     coordinates = map_builder.generate_run_map(run, graph, final_tour)
-    # return "customized_run.html", round(route_length / 1609.34, 2)
+
+    # Assuming user_id is passed as an argument; otherwise, you can obtain it from current_user.id if the user is logged in
+    if user_id is None and current_user.is_authenticated:
+        user_id = current_user.id
+
     route = Route(
         coordinates=coordinates,
         distance=round(route_length / 1609.34, 2),
         address=form_data["address"],
+        user_id=user_id,  # Add the user_id here
     )
     db.session.add(route)
     db.session.commit()

@@ -115,7 +115,10 @@ def input():
 
     if request.method == "POST":
         form_data = request.form
-        job = q.enqueue(process_runner_input, form_data)
+        # Check if the user is authenticated to get the user ID
+        user_id = current_user.id if current_user.is_authenticated else None
+
+        job = q.enqueue(process_runner_input, form_data, user_id)
         return redirect(url_for("main.loading", task_id=job.id))
     return render_template("input.html")
 
