@@ -140,8 +140,10 @@ def input():
 def loading(task_id):
     job = q.fetch_job(task_id)
     status = job.get_status()
-    if status in ["queued", "started", "deferred", "failed"]:
+    if status in ["queued", "started", "deferred"]:
         return render_template("loading.html", result=status, refresh=True)
+    elif status == "failed":
+        return redirect(url_for("main.input"))
     elif status == "finished":
         results = job.result
         print("the results are:")
