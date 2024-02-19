@@ -33,7 +33,9 @@ def index():
         user = User.query.filter_by(email=login_form.email.data).first()
         print("user logging in:")
         print(user)
-        print("check password is a " + user.check_password(login_form.password.data))
+        print(
+            "check password is a " + str(user.check_password(login_form.password.data))
+        )
         if user and user.check_password(login_form.password.data):
             login_user(user, remember=login_form.remember_me.data)
             next_page = request.args.get("next")
