@@ -50,8 +50,6 @@ class Model:
         # Variables: vars is the set of edges in the graph, seq is the set of nodes in the graph
         distance = distance * 1609.34
         m = gp.Model()
-        print("Terrain types in SLO")
-        print(terrain)
         vars = m.addVars(dist.keys(), obj=dist, vtype=GRB.BINARY, name="x")
         seq = m.addVars(nodes, obj=nodes, vtype=GRB.INTEGER, name="u")
         root = start
@@ -539,54 +537,7 @@ class MapBuilder:
         test_map.save("/app/project/templates/generated_route.html")
         # Read the HTML file
         all_coords = self.extract_polyline_coordinates(test_map._repr_html_())
-        print("all the damn coordinates round one")
-        print(all_coords)
         return all_coords
-        # soupy_map = BeautifulSoup(test_map.get_root().render(), "html.parser")
-
-        # with open(
-        #     "/app/project/templates/generated_route.html", "r", encoding="utf-8"
-        # ) as html_file:
-        #     html_content = html_file.read()
-        #     all_coords = self.extract_polyline_coordinates(html_content)
-        #     print("all the damn coordinates round too")
-        #     print(all_coords)
-
-        # Parse the HTML content
-        # soup = BeautifulSoup(html_content, "html.parser")
-
-        # # Find the element with the specified id
-        # custom_run_div = soup.find("div", {"id": "custom-run"})
-
-        # # Check if the element was found
-        # if custom_run_div:
-        #     # Extract the element's contents or attributes
-        #     # Print the element's HTML
-        #     # Convert the Folium map to an HTML string
-        #     # folium_map_html = test_map.get_root().render()
-        #     # for i in range(10):
-        #     #     print("*")
-        #     # Set the innerHTML of the custom_run_div to the Folium map HTML
-        #     custom_run_div.clear()
-        #     custom_run_div.append(soupy_map)
-        #     # for i in range(10):
-        #     #     print("*")
-        #     print(custom_run_div.contents)
-        #     # print(custom_run_div.prettify())  # Print the element's HTML
-        #     # Save the modified HTML back to a file
-        #     with open(
-        #         "/app/project/templates/customized_run.html", "w", encoding="utf-8"
-        #     ) as modified_file:
-        #         modified_file.write(str(soup))
-        #         s3 = boto3.client("s3")
-        #         bucket_name = os.environ.get("S3_BUCKET_NAME")
-        #         with open("/app/project/templates/customized_run.html", "rb") as f:
-        #             s3.upload_fileobj(f, bucket_name, "customized_run.html")
-        #         modified_file.close()
-        #         html_file.close()
-
-        # else:
-        #     print("Element with id 'custom-run' not found.")
 
     def plot_run_on_map(self, G, lst, fol_map):
         """
