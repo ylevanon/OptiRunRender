@@ -1,53 +1,21 @@
-<html>
+{% extends 'base.html' %}
+{% block title %}Loading - Opti-Run{% endblock %}
 
-    <head>
-        {% if refresh %}
-        <meta http-equiv="refresh" content="5">
-        {% endif %}
-        <style>
-            h1 {
-                text-align: center;
-            }
-        </style>
-        <h1>
-            Please wait...
-        </h1>
-        <style>
-            /* Do I need two style tags for head?  */
-            body {
-                background-color: #e7eff1;
-            }
-        </style>
-    </head>
+{% block extra_head %}
+{% if refresh %}
+<meta http-equiv="refresh" content="5">
+{% endif %}
+{% endblock %}
 
-    <body>
-        <style>
-            div {
-                width: 65%;
-                margin: auto;
-            }
-        </style>
-
-        <div id="body_gif" ; class=container;>
-
-            <div style="background-color: #288BA8;
-
-        /* Padding is the buffer around the elements of the container */
-        padding: 20px;
-        border: 5px solid rgb(0, 0, 0);">
-
-                <center>
-                    <!-- Here is paragraph text -->
-                    <p style="color: rgb(255, 255, 255);">Your personalized route is being generated!</p>
-
-
-                    <img src="https://media4.giphy.com/media/26tPgy93ssTeTTSqA/giphy.gif?cid=ecf05e4700zely0l0dy5meob53rnijq5nfxn6a5w1dtah357&rid=giphy.gif&ct=g"
-                        alt="loaded" width="250" />
-
-                    <h2 style="color:rgb(255, 255, 255)">route generation status: {{result}}</h2>
-                </center>
-            </div>
-
-    </body>
-
-</html>
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <i class="fas fa-spinner fa-spin fa-3x mb-3" style="color: teal;"></i>
+            <h2 class="mb-3">Preparing Your Route...</h2>
+            <p class="lead">Please wait while we're generating the best route for you. This page will refresh
+                automatically. The route generation process has: {{result}}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

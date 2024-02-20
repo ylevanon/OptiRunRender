@@ -1,32 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <!-- Include your custom scripts with a relative path -->
-        <script src="../static/make-folium-map.js"></script>
-        <!-- Include external libraries -->
-        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-        <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuW1F8SftPkmMN-qOEweDpD6Sbf1bL31k&libraries=places&callback=initMap"></script>
-
-
-        <!-- Include Leaflet library -->
-        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        {% if refresh %}
+        <meta http-equiv="refresh" content="5">
+        {% endif %}
+        <style>
+            h1 {
+                text-align: center;
+            }
+        </style>
+        <h1>
+            Please wait...
+        </h1>
+        <style>
+            /* Do I need two style tags for head?  */
+            body {
+                background-color: #e7eff1;
+            }
+        </style>
     </head>
 
     <body>
-        <div class="col-md-6">
-            <div id="map" style="height: 400px;"></div>
-        </div>
+        <style>
+            div {
+                width: 65%;
+                margin: auto;
+            }
+        </style>
 
-        <!-- Initialize the map by calling the callback function -->
-        <script>
-            initMap();
-        </script>
+        <div id="body_gif" ; class=container;>
+
+            <div style="background-color: #288BA8;
+
+        /* Padding is the buffer around the elements of the container */
+        padding: 20px;
+        border: 5px solid rgb(0, 0, 0);">
+
+                <center>
+                    <!-- Here is paragraph text -->
+                    <p style="color: rgb(255, 255, 255);">Your personalized route is being generated!</p>
+
+
+                    <img src="https://media4.giphy.com/media/26tPgy93ssTeTTSqA/giphy.gif?cid=ecf05e4700zely0l0dy5meob53rnijq5nfxn6a5w1dtah357&rid=giphy.gif&ct=g"
+                        alt="loaded" width="250" />
+
+                    <h2 style="color:rgb(255, 255, 255)">route generation status: {{result}}</h2>
+                </center>
+            </div>
+
     </body>
 
 </html>
