@@ -165,3 +165,7 @@ cython_debug/
 
 # cache
 cache/
+
+project/migrations/
+
+gurobi.lic
