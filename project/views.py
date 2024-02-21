@@ -66,10 +66,7 @@ def login():
         )
         if user and user.check_password(login_form.password.data):
             login_user(user)
-            next_page = request.args.get("next")
-            if not next_page or urlparse(next_page).netloc != "":
-                next_page = url_for("main.landing")
-            return redirect(next_page)
+            return redirect(url_for("main.landing"))
         elif "login-submit" in request.form:
             flash("Invalid email or password")
 
